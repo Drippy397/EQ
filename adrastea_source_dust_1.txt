@@ -1,0 +1,1464 @@
+-- GLOBAL VARIABLES
+
+GlobalFov = 100
+GlobalPlayerEspToggleBool = false
+PlayerTracerEspToggleBool = false
+PlayerNameEspToggleBool = false
+PlayerHealthEspToggleBool = false
+PlayerWalkSpeedHackBool = false
+AntiAimToggleBool = false
+PlayerWalkSpeedValue = 8
+PreviousPlayerWalkspeedValue = game.Players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed
+SetWalkSpeedVal = 0
+SetFovHackVal = 0
+PlayerESPColor3 = Color3.new(1,0,0)
+prevAmbience = game.Lighting.Ambient
+newAmbience = Color3.new(1,1,1)
+HipHeightToggleBool = false
+HipHeightValue = 2
+ServerCrashToggleBool = false
+IronNodeEspToggleBool = false
+SulfurNodeEspToggleBool = false
+StoneNodeEspToggleBool = false
+GlobalNodeEspToggleBool = false
+FlyHackGlobalBool = false
+defaultRobloxGravity = 196.2
+GlobalGravityToggleBool = false
+NewGravity = 196.2
+UserInputService = game:GetService("UserInputService")
+GlobalAimbotToggle = false
+isAimKeyDown = false
+GlobalAimbotType = "Camera"
+isFovCircleVisibleBool = false
+GlobalFov = 100
+FovCircle = Drawing.new("Circle")
+maxRenderDistance = 1000
+globalBlurToggleBool = false
+globalHarvestToggleBool = false
+infJumpToggleBool = true
+
+
+
+
+getgenv().oldNameCall = nil
+getgenv().globalNoclipTpToggle = false
+getgenv().NoRecoilToggle = false
+getgenv().originalValueTable = {}
+-- FOV CIRCLE
+if true then
+	FovCircle.Thickness = 0.8
+	FovCircle.NumSides = 40
+	FovCircle.Radius = GlobalFov
+	FovCircle.Filled = false
+	FovCircle.Position = Vector2.new(game.Workspace:FindFirstChild("Camera").ViewportSize.x / 2, game.Workspace:FindFirstChild("Camera").ViewportSize.y / 2)
+	FovCircle.Visible = false
+	FovCircle.Transparency = 1
+	FovCircle.Color = PlayerESPColor3
+end
+
+
+
+-- GLOBAL VARIABLES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- ANTI CHEAT STUFF
+
+if true then
+function initNoclip()
+	getgenv().localNcToggle = false
+		wait(5)
+		local _mouse = game:GetService("Players").LocalPlayer:GetMouse()
+		_mouse.KeyDown:connect(function(key)
+				if key == "g" then
+					if getgenv().globalNoclipTpToggle == true then
+					getgenv().localNcToggle = true
+					while getgenv().localNcToggle do
+						game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame + game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame.lookVector * 3
+						wait()
+					end
+				end
+			end
+		end)
+		_mouse.KeyUp:connect(function(key)
+				if key == "g" then
+					if getgenv().localNcToggle == true then
+					getgenv().localNcToggle = false
+				end
+			end
+		end)
+	
+end
+function noRecoilHook()
+	loadstring([[	spawn(newcclosure(function()
+		local camera = require(game:GetService("ReplicatedStorage").Modules.VFX)
+		local oldrecoil
+		oldrecoil = hookfunction(camera.RecoilCamera, function(...)
+			if getgenv().NoRecoilToggle then
+				return 0
+			else
+				oldrecoil(...)
+			end
+		end)
+	end))]])()
+	
+
+
+end
+local GameMt = getrawmetatable(game)
+getgenv().oldNameCall = GameMt.__namecall
+function disableAntiCheat()
+	loadstring([[
+		local GameMt = getrawmetatable(game)
+		local OldIndex = GameMt.__index
+		local OldNameCall = GameMt.__namecall
+		
+		local CoreGui = game.CoreGui
+		local l__LocalPlayer__14 = game.Players.LocalPlayer;
+		local l__Character__15 = l__LocalPlayer__14.Character;
+		local l__Humanoid__16 = l__Character__15:WaitForChild("Humanoid");
+		local l__ReplicatedStorage__1 = game.ReplicatedStorage;
+		local l__RemoteEvents__4 = l__ReplicatedStorage__1.RemoteEvents;
+		local l__LightTorchOLD__48 = l__RemoteEvents__4:WaitForChild("LightTorchOLD");
+		local PUS = l__LocalPlayer__14.PlayerGui:WaitForChild("MainGui").Fullscreen:WaitForChild("PickUp")
+		if PUS then
+			setreadonly(GameMt, false)
+	
+			GameMt.__namecall = newcclosure(function(Self, ...)
+				local Args = {...}
+				local NamecallMethod = getnamecallmethod()
+				if not checkcaller() and Self == l__LightTorchOLD__48 and NamecallMethod == "FireServer" and getcallingscript() == PUS then
+					return nil
+				end
+				return OldNameCall(Self, ...)
+			end)
+			setreadonly(GameMt, true)
+		end]])()
+end
+function reenableAntiCheat()
+	loadstring([[
+	local GameMt = getrawmetatable(game)	
+	setreadonly(GameMt, false)
+	GameMt.__namecall = getgenv().oldNameCall
+	setreadonly(GameMt, true)
+]])()
+end
+initNoclip()
+disableAntiCheat()
+noRecoilHook()
+
+
+end
+
+-- ANTI CHEAT STUFF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- GUI COLOR DEFINITION
+
+local library = loadstring(game:HttpGet(('https://pastebin.com/raw/AnwXrMCG'),true))()
+library.settings = {
+	title = "Adrastea",
+	footer = "bottom text",
+	modal = true,
+	toggle = Enum.KeyCode.RightShift,
+	font = Enum.Font.Code,
+	textsize = 14,
+	textstroke = true
+}
+library.colors = {
+	theme = Color3.fromRGB(0,102,255),
+	text = Color3.fromRGB(255,255,255),
+	main = Color3.fromRGB(26,26,26),
+	fade = Color3.fromRGB(96, 60, 99),
+	outline = Color3.fromRGB(10,10,10),
+	tabholder = Color3.fromRGB(26,26,26),
+	tabbutton = Color3.fromRGB(40,40,40),
+	tabselected = Color3.fromRGB(30,30,30),
+	scrollbar = Color3.fromRGB(90,90,90),
+}
+
+
+-- GUI COLOR DEFINITION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- MOD DETECTION
+
+if true then
+for i,v in pairs(game.Players:GetChildren()) do
+	local humanoid = v.Character:FindFirstChild("Humanoid")
+	if v:GetRankInGroup(3765739) >= 2 then
+
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Early Access Member Detection!"; 
+			Text = "Early Access Member Name: " .. v.Name,
+			Duration = 10
+		})
+	end
+	if humanoid then
+		if v:GetRankInGroup(3765739) >= 3 or humanoid.Health > 499 then
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Mod / Admin    Detection!";
+				Text = "Mod / Admin Name: " .. v.Name,
+				Duration = 20
+			})
+		end
+	end
+end
+end
+
+-- MOD DETECTION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- ESPTABLES
+
+if true then
+getgenv().nameTable = {}
+getgenv().healthEspTable = {}
+getgenv().playerTracerTable = {}
+getgenv().CROSSHAIRTABLE = {}
+getgenv().STONEESPTABLE = {}
+getgenv().IRONNODEESPTABLE = {}
+getgenv().SULFURESPTABLE = {}
+end
+
+-- ESPTABLES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- FUNCTION DEFINITIONS
+
+
+if true then
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	-- HARVEST
+
+
+
+
+
+
+
+
+function harvest()
+	harvestEvent = game.ReplicatedStorage.RemoteEvents:FindFirstChild("HarvestEvent")
+			if Game.Players.LocalPlayer:GetMouse().Target:IsA("Model") then
+				harvestEvent:FireServer(Game.Players.LocalPlayer:GetMouse().Target, Game.Players.LocalPlayer:GetMouse().Hit.p)
+			else
+				harvestEvent:FireServer(Game.Players.LocalPlayer:GetMouse().Target.Parent, Game.Players.LocalPlayer:GetMouse().Hit.p)
+			end
+		
+	
+end
+
+-- GUNS
+function horizontal(value)
+	for i,v in pairs(game.ReplicatedStorage.RangedWeapons:GetChildren()) do
+		for x,z in pairs(v:GetChildren()) do
+			if z.Name == "HorizontalMult" then
+				z.Value = value
+			end
+		end
+	end
+end
+function vertical(value)
+	for i,v in pairs(game.ReplicatedStorage.RangedWeapons:GetChildren()) do
+		for x,z in pairs(v:GetChildren()) do
+			if z.Name == "VerticalMult" then
+				z.Value = value
+			end
+		end
+	end
+end
+
+-- AIMBOT 
+if true then
+
+	function get2dDistance(src, dst)
+		return math.sqrt(math.pow(src.x - dst.x, 2) + math.pow(src.y - dst.y, 2))
+	end
+		function checkFov(pos2, fov)
+			local ssize = Vector2.new(camera.ViewportSize.x / 2, camera.ViewportSize.y / 2)
+			if (ssize - pos2).Magnitude < fov then
+				return true
+			else
+				return false
+			end
+		end
+	
+	function getClosestToCenter()
+		local UserInputService = game:GetService("UserInputService")
+		local camera = game.Workspace:FindFirstChild("Camera")
+		local distance = 99999
+		local plrpos2 = Vector2.new(0,0)
+		for i,v in pairs(game.Players:GetChildren()) do
+			if v.Character and v.Name ~= game.Players.LocalPlayer.Name then
+				local root = v.Character:FindFirstChild("Head")
+				local ssize = Vector2.new(camera.ViewportSize.x / 2, camera.ViewportSize.y / 2)
+				if root then
+					pos3 = camera:WorldToViewportPoint(root.Position)
+					if pos3.z > 0 then
+						pos2 = Vector2.new(pos3.x, pos3.y)
+						local dist = get2dDistance(pos2, ssize)
+						if dist < distance then
+								distance = dist
+								returnplayer = v
+								plrpos2 = pos2
+						end
+					end
+				end
+			end
+		end
+
+		return returnplayer, plrpos2
+		
+	end
+	function aimbotcamera()
+		local UserInputService = game:GetService("UserInputService")
+		local camera = game.Workspace:FindFirstChild("Camera")
+		local player, pos2 = getClosestToCenter()
+		local head = player.Character:FindFirstChild("Head")
+		local myhead = game.Players.LocalPlayer.Character:FindFirstChild("Head")
+		if myhead and head and player and checkFov(pos2, GlobalFov) then
+			camera.CFrame = CFrame.new(camera.CFrame.p, head.CFrame.p)
+		end
+	end
+	function aimbot()
+		local UserInputService = game:GetService("UserInputService")
+		local camera = game.Workspace:FindFirstChild("Camera")
+		local ssize = Vector2.new(camera.ViewportSize.x / 2, camera.ViewportSize.y / 2)
+		local player,pos = getClosestToCenter()
+		local relpos = pos - ssize
+		if checkFov(pos, GlobalFov) then
+			mousemoverel(relpos.x, relpos.y)
+		end
+	end
+end
+
+-- WallHack
+if true then
+	function wallHack()
+		for i, v in pairs(game.Workspace.BuiltObjects:GetChildren()) do
+			if v.Name == "Wall" then
+				for c, h in pairs(v:GetChildren()) do
+					if h.ClassName == "MeshPart" then
+						h.Transparency = 0.8
+					end
+				end
+			end
+		end
+	end
+	function unWallHack()
+		for i, v in pairs(game.Workspace.BuiltObjects:GetChildren()) do
+			if v.Name == "Wall" then
+				for c, h in pairs(v:GetChildren()) do
+					if h.ClassName == "MeshPart" then
+						h.Transparency = 0
+					end
+				end
+			end
+		end
+	end 
+end
+
+-- PLAYER TRACERS
+if true then 
+	function makeTracerPlayerEsp()
+		for index, player in pairs(game.Players:GetChildren()) do
+			tracer = Drawing.new("Line")
+			tracer.Visible = false
+			tracer.Transparency = 1
+			tracer.Color = Color3.new(0,1,0)
+			tracer.Thickness = 0.9
+			tracer.To = Vector2.new(0,0)
+			tracer.From = Vector2.new(960, 1080)
+			local tracerStruct =
+			{
+				tracer,
+				player
+				
+			}
+			tracerStruct.tracer = tracer
+			tracerStruct.player = player
+			table.insert(getgenv().playerTracerTable, index, tracerStruct)
+		end
+	end
+	function updateTracerPlayerEsp(color, position, index)
+			if position.z > 0 then
+					getgenv().playerTracerTable[index].tracer.To = Vector2.new(position.x, position.y)
+					getgenv().playerTracerTable[index].tracer.Color = color
+				
+					local rp = getgenv().playerTracerTable[index].player.Character:FindFirstChild("HumanoidRootPart")
+					local localrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+					if localrp and rp then
+						if (rp.Position - localrp.Position).Magnitude < maxRenderDistance then
+							getgenv().playerTracerTable[index].tracer.Visible = true
+						else
+							getgenv().playerTracerTable[index].tracer.Visible = false
+						end
+					end
+				else
+					getgenv().playerTracerTable[index].tracer.Visible = false
+				end
+			
+	end
+	function removeTracerPlayerEsp()
+		for i,tracerStruct in pairs(getgenv().playerTracerTable) do
+			tracerStruct.tracer:Remove()
+			getgenv().playerTracerTable = {}
+		end
+	end
+end
+
+-- PLAYER NAME 
+if true then
+	function makePlayerNameEsp()
+		for index, player in pairs(game.Players:GetChildren()) do
+			if player.Name ~= game.Players.LocalPlayer.Name then
+				text = Drawing.new("Text")
+				text.Visible = false
+				text.Transparency = 1
+				text.Color = Color3.new(1,0,0)
+				text.Text = player.Name
+				text.Size = 13
+				text.Outline = true
+				text.OutlineColor = Color3.new(0,0,0)
+				text.Position = Vector2.new(0,0)
+				text.Font = Drawing.Fonts.Plex
+				local textStruct =
+				{
+					text,
+					player
+					
+				}
+				textStruct.text = text
+				textStruct.player = player
+				table.insert(getgenv().nameTable, index, textStruct)
+			end
+		end
+	end
+	function updatePlayerNameEsp(color, position, index)
+			if position.z > 0 then
+					getgenv().nameTable[index].text.Position = Vector2.new(position.x, position.y)
+					getgenv().nameTable[index].text.Color = color
+					local rp = getgenv().nameTable[index].player.Character:FindFirstChild("HumanoidRootPart")
+					local localrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+					if localrp and rp then
+						if (rp.Position - localrp.Position).Magnitude < maxRenderDistance then
+							getgenv().nameTable[index].text.Visible = true
+						else
+							getgenv().nameTable[index].text.Visible = false
+						end
+					end
+			else
+				getgenv().nameTable[index].text.Visible = false
+			end
+	end
+	function removeNamePlayerEsp()
+		for i,textStruct in pairs(getgenv().nameTable) do
+			textStruct.text:Remove()
+			getgenv().nameTable = {}
+		end
+	end
+end
+
+-- CROSSHAIR
+if true then
+	function REMOVECROSSHAIR()
+		for i,v in pairs(getgenv().CROSSHAIRTABLE) do
+			v:Remove()
+		end
+	end 
+	function CREATECROSSHAIR()
+		local CAMERA = game.Workspace:FindFirstChild("Camera")
+		if CAMERA then
+			local x = CAMERA.ViewportSize.X
+			local y = CAMERA.ViewportSize.Y
+			CROSSHAIRy = Drawing.new("Line")
+			CROSSHAIRy.Visible = true
+			CROSSHAIRy.From = Vector2.new((x/2) , (y/2) - 10)
+			CROSSHAIRy.To = Vector2.new((x/2), (y/2) + 10)
+			CROSSHAIRy.Color = Color3.fromRGB(255, 0, 255)
+			CROSSHAIRy.Thickness = 2
+			CROSSHAIRy.Transparency = 1
+			CROSSHAIRx = Drawing.new("Line")
+			CROSSHAIRx.Visible = true
+			CROSSHAIRx.From = Vector2.new((x/2) - 10 , (y/2))
+			CROSSHAIRx.To = Vector2.new((x/2) + 10, (y/2))
+			CROSSHAIRx.Color = Color3.fromRGB(255, 0, 255)
+			CROSSHAIRx.Thickness = 2
+			CROSSHAIRx.Transparency = 1
+			table.insert(getgenv().CROSSHAIRTABLE, 1, CROSSHAIRx)
+			table.insert(getgenv().CROSSHAIRTABLE, 2, CROSSHAIRy)
+		end
+	end
+end
+
+-- PLAYER HEALTH ESP 
+if true then
+	function makePlayerHealthEsp()
+		for index, player in pairs(game.Players:GetChildren()) do
+			text = Drawing.new("Text")
+			text.Visible = false
+			text.Transparency = 1
+			text.Color = Color3.new(1,0,0)
+			text.Text = tostring(math.floor(player.Character.Humanoid.Health))
+			text.Size = 13
+			text.Outline = true
+			text.OutlineColor = Color3.new(0,0,0)
+			text.Position = Vector2.new(0,0)
+			text.Font = Drawing.Fonts.Plex
+			local textStruct =
+			{
+				text,
+				player
+				
+			}
+			textStruct.text = text
+			textStruct.player = player
+			table.insert(getgenv().healthEspTable, index, textStruct)
+		end
+	end
+	function updatePlayerHealthEsp(color, position, index)
+			if position.z > 0 then
+					getgenv().healthEspTable[index].text.Position = Vector2.new(position.x, position.y + 14)
+					getgenv().healthEspTable[index].text.Color = color
+					local rp = getgenv().healthEspTable[index].player.Character:FindFirstChild("HumanoidRootPart")
+					local localrp = game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+					if localrp and rp then
+						if (rp.Position - localrp.Position).Magnitude < maxRenderDistance then
+							getgenv().healthEspTable[index].text.Visible = true
+						else
+							getgenv().healthEspTable[index].text.Visible = false
+						end
+					end
+					getgenv().healthEspTable[index].text.Text = tostring(math.floor(getgenv().healthEspTable[index].player.Character.Humanoid.Health))
+			else
+				getgenv().healthEspTable[index].text.Visible = false
+			end
+	end
+	function removePlayerHealthEsp()
+		for i,textStruct in pairs(getgenv().healthEspTable) do
+			textStruct.text:Remove()
+			getgenv().healthEspTable = {}
+		end
+	end
+end
+--- IRON NODE ESP
+if true then
+	camera = game.Workspace:FindFirstChild("Camera")
+	function MAKEIRONESP()
+		for INDEX,OREZONE in pairs(game.Workspace.SpawnerZones.OreNodes:GetChildren()) do
+			for INDEX2, ORENODE in pairs(OREZONE:GetChildren()) do
+				local ROCKPRIMa = ORENODE:FindFirstChild("RockPrim")
+				if ROCKPRIMa then
+					VEC3SCREENPOINT = camera:WorldToViewportPoint(ROCKPRIMa.Position)
+				
+						if ORENODE.Name == "IronNode" then
+							local screenPoint = camera:WorldToViewportPoint(ROCKPRIMa.Position)
+							local TEXT = Drawing.new("Text")
+							TEXT.Visible = true
+							TEXT.Transparency = 1
+							TEXT.Color = Color3.fromRGB(168, 56, 0)
+							TEXT.Text = ORENODE.Name
+							TEXT.Size = 18
+							TEXT.Outline = false
+							TEXT.Position = Vector2.new(screenPoint.x, screenPoint.y)
+	
+							local IRONTEXTSTRUCT = {
+								ESPTEXT,
+								ORENODE
+							}
+							IRONTEXTSTRUCT.ESPTEXT = TEXT
+							IRONTEXTSTRUCT.ORE = ORENODE
+							table.insert(getgenv().IRONNODEESPTABLE, INDEX2, IRONTEXTSTRUCT)
+						end
+					
+				end
+			end
+		end
+	end
+	function UPDATEIRONESP()
+		for INDEX3, IRONTEXTSTRUCT in pairs(getgenv().IRONNODEESPTABLE) do
+			local ROCKPRIMb = IRONTEXTSTRUCT.ORE:FindFirstChild("RockPrim")
+			if ROCKPRIMb then
+				xxscreenPoint = camera:WorldToViewportPoint(ROCKPRIMb.Position)
+				if xxscreenPoint.z > 0 then
+					IRONTEXTSTRUCT.ESPTEXT.Position = Vector2.new(xxscreenPoint.x, xxscreenPoint.y)
+					IRONTEXTSTRUCT.ESPTEXT.Transparency = 1
+				else
+					IRONTEXTSTRUCT.ESPTEXT.Position = Vector2.new(xxscreenPoint.x, xxscreenPoint.y)
+					IRONTEXTSTRUCT.ESPTEXT.Transparency = 0
+				end
+			else
+				IRONTEXTSTRUCT.ESPTEXT.Transparency = 0
+			end
+		end
+	end
+	function REMOVEIRONESP()
+		for INDEX3, IRONTEXTSTRUCT in pairs(getgenv().IRONNODEESPTABLE) do
+			IRONTEXTSTRUCT.ESPTEXT:Remove()
+		end
+	end
+	function HIDEIRONESP()
+		for INDEX3, IRONTEXTSTRUCT in pairs(getgenv().IRONNODEESPTABLE) do
+			IRONTEXTSTRUCT.ESPTEXT.Transparency = 0
+		end
+	end
+end	
+
+-- STONE NODE ESP
+if true then
+	camera = game.Workspace:FindFirstChild("Camera")
+	function MAKESTONEESP()
+		for INDEX,OREZONE in pairs(game.Workspace.SpawnerZones.OreNodes:GetChildren()) do
+			for INDEX2, ORENODE in pairs(OREZONE:GetChildren()) do
+				local ROCKPRIMa = ORENODE:FindFirstChild("RockPrim")
+				if ROCKPRIMa then
+					VEC3SCREENPOINT = camera:WorldToViewportPoint(ROCKPRIMa.Position)
+
+						if ORENODE.Name == "StoneNode" then
+							local screenPoint = camera:WorldToViewportPoint(ROCKPRIMa.Position)
+							local TEXT = Drawing.new("Text")
+							TEXT.Visible = true
+							TEXT.Transparency = 1
+							TEXT.Color = Color3.fromRGB(121, 121, 121)
+							TEXT.Text = ORENODE.Name
+							TEXT.Size = 18
+							TEXT.Outline = false
+							TEXT.Position = Vector2.new(screenPoint.x, screenPoint.y)
+
+							local STONETEXTSTRUCT = {
+								ESPTEXT,
+								ORENODE
+							}
+							STONETEXTSTRUCT.ESPTEXT = TEXT
+							STONETEXTSTRUCT.ORE = ORENODE
+							table.insert(getgenv().STONEESPTABLE, INDEX2, STONETEXTSTRUCT)
+						end
+					
+				end
+			end
+		end
+	end
+	function UPDATESTONEESP()
+		for INDEX3, STONETEXTSTRUCT in pairs(getgenv().STONEESPTABLE) do
+			local ROCKPRIMb = STONETEXTSTRUCT.ORE:FindFirstChild("RockPrim")
+			if ROCKPRIMb then
+				xxscreenPoint = camera:WorldToViewportPoint(ROCKPRIMb.Position)
+				if xxscreenPoint.z > 0 then
+					STONETEXTSTRUCT.ESPTEXT.Position = Vector2.new(xxscreenPoint.x, xxscreenPoint.y)
+					STONETEXTSTRUCT.ESPTEXT.Transparency = 1
+				else
+					STONETEXTSTRUCT.ESPTEXT.Position = Vector2.new(xxscreenPoint.x, xxscreenPoint.y)
+					STONETEXTSTRUCT.ESPTEXT.Transparency = 0
+				end
+			else
+				STONETEXTSTRUCT.ESPTEXT.Transparency = 0
+			end
+		end
+	end
+	function REMOVESTONEESP()
+		for INDEX3, STONETEXTSTRUCT in pairs(getgenv().STONEESPTABLE) do
+			STONETEXTSTRUCT.ESPTEXT:Remove()
+		end
+	end
+	function HIDESTONEESP()
+		for INDEX3, STONETEXTSTRUCT in pairs(getgenv().STONEESPTABLE) do
+			STONETEXTSTRUCT.ESPTEXT.Transparency = 0
+		end
+	end
+end
+
+-- SULFUR NODE ESP
+if true then
+	camera = game.Workspace:FindFirstChild("Camera")
+	function MAKESULFURESP()
+		for INDEX,OREZONE in pairs(game.Workspace.SpawnerZones.OreNodes:GetChildren()) do
+			for INDEX2, ORENODE in pairs(OREZONE:GetChildren()) do
+				local ROCKPRIMa = ORENODE:FindFirstChild("RockPrim")
+				if ROCKPRIMa then
+					VEC3SCREENPOINT = camera:WorldToViewportPoint(ROCKPRIMa.Position)
+	
+						if ORENODE.Name == "SulfurNode" then
+							local screenPoint = camera:WorldToViewportPoint(ROCKPRIMa.Position)
+							local TEXT = Drawing.new("Text")
+							TEXT.Visible = true
+							TEXT.Transparency = 1
+							TEXT.Color = Color3.fromRGB(38, 129, 0)
+							TEXT.Text = ORENODE.Name
+							TEXT.Size = 18
+							TEXT.Outline = false
+							TEXT.Position = Vector2.new(screenPoint.x, screenPoint.y)
+							local SULFURTEXTSTRUCT = {
+								ESPTEXT,
+								ORENODE
+							}
+							SULFURTEXTSTRUCT.ESPTEXT = TEXT
+							SULFURTEXTSTRUCT.ORE = ORENODE
+							table.insert(getgenv().SULFURESPTABLE, INDEX2, SULFURTEXTSTRUCT)
+						end
+			
+				end
+			end
+		end
+	end
+	function UPDATESULFURESP()
+		for INDEX3, SULFURTEXTSTRUCT in pairs(getgenv().SULFURESPTABLE) do
+			local ROCKPRIMb = SULFURTEXTSTRUCT.ORE:FindFirstChild("RockPrim")
+			if ROCKPRIMb then
+				xxscreenPoint = camera:WorldToViewportPoint(ROCKPRIMb.Position)
+				if xxscreenPoint.z > 0 then
+					SULFURTEXTSTRUCT.ESPTEXT.Position = Vector2.new(xxscreenPoint.x, xxscreenPoint.y)
+					SULFURTEXTSTRUCT.ESPTEXT.Transparency = 1
+				else
+					SULFURTEXTSTRUCT.ESPTEXT.Position = Vector2.new(xxscreenPoint.x, xxscreenPoint.y)
+					SULFURTEXTSTRUCT.ESPTEXT.Transparency = 0
+				end
+			else
+				SULFURTEXTSTRUCT.ESPTEXT.Transparency = 0
+			end
+		end
+	end
+	function REMOVESULFUREESP()
+		for INDEX3, SULFURTEXTSTRUCT in pairs(getgenv().SULFURESPTABLE) do
+			SULFURTEXTSTRUCT.ESPTEXT:Remove()
+		end
+	end
+	function HIDESULFURESP()
+		for INDEX3, SULFURTEXTSTRUCT in pairs(getgenv().SULFURESPTABLE) do
+			SULFURTEXTSTRUCT.ESPTEXT.Transparency = 0
+		end
+	end
+end
+
+
+end
+
+
+-- FUNCTION DEFINITIONS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- MENU CREATION
+
+local MainWindow = library:CreateWindow(Vector2.new(500, 500), Vector2.new(120, 120))
+local Visuals = MainWindow:CreateTab("Visuals")
+local Aim = MainWindow:CreateTab("Aim")
+local AimBody = Aim:AddLocalTab("Aimbot")
+local VisualsBody = Visuals:AddLocalTab("Player")
+local BaseVisualsBody = Visuals:AddLocalTab("Base")
+local Exploits = MainWindow:CreateTab("Exploits")
+local GunMods = MainWindow:CreateTab("Gun Mods")
+local ModBody = GunMods:AddLocalTab("Mods")
+local Misc = MainWindow:CreateTab("Misc")
+local CameraBody = Misc:AddLocalTab("Camera")
+local DiscordBody = Misc:AddLocalTab("Discord")
+local PlayerBody = Exploits:AddLocalTab("Player")
+local ServerBody = Exploits:AddLocalTab("Server")
+local OreEsp = Visuals:AddLocalTab("World")
+local AimVisualsBody = Visuals:AddLocalTab("Aim")
+
+-- MENU CREATION
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- PLAYER GLOBAL TOGGLE
+OreEsp:AddToggle("Toggle" , false, function(localToggle)
+	GlobalNodeEspToggleBool = localToggle
+	if not GlobalNodeEspToggleBool then
+		HIDESTONEESP()
+		HIDESULFURESP()
+		HIDEIRONESP()
+	end
+end)
+OreEsp:AddToggle("Iron Node", false, function(localToggle)
+	IronNodeEspToggleBool = localToggle 
+	if IronNodeEspToggleBool then
+		MAKEIRONESP()
+	else
+		REMOVEIRONESP()
+		getgenv().IRONNODEESPTABLE = {}
+	end
+end)
+OreEsp:AddToggle("Stone Node", false, function(localToggle)
+	StoneNodeEspToggleBool = localToggle
+	if StoneNodeEspToggleBool then
+		MAKESTONEESP()
+	else
+		REMOVESTONEESP()
+		getgenv().STONEESPTABLE = {}
+		
+end
+end)
+OreEsp:AddToggle("Sulfur Node", false, function(localToggle)
+	SulfurNodeEspToggleBool = localToggle
+	if SulfurNodeEspToggleBool then
+		MAKESULFURESP()
+	else
+		REMOVESULFUREESP()
+		getgenv().SULFURESPTABLE = {}
+	end
+end)
+DiscordBody:AddButton("Copy Discord Link", function()
+setclipboard("https://discord.gg/GkPyEWqkbS")
+end)
+BaseVisualsBody:AddToggle("Wall Xray", false, function(localToggle)
+if localToggle then
+	wallHack()
+else
+	unWallHack()
+end
+end)
+VisualsBody:AddToggle("Name", false, function(localToggle)
+PlayerNameEspToggleBool = localToggle
+if PlayerNameEspToggleBool then
+	makePlayerNameEsp()
+else
+	removeNamePlayerEsp()
+
+end
+end)
+ModBody:AddToggle("No Recoil", false, function(localToggle)
+if localToggle then
+	getgenv().NoRecoilToggle = true
+else
+	getgenv().NoRecoilToggle = false
+end
+end)
+ServerBody:AddToggle("Server Crash / Lag", false, function(localToggle)
+ServerCrashToggleBool = localToggle
+if ServerCrashToggleBool then
+   for i = 1, 150 do
+	   if ServerCrashToggleBool then
+		   local bits =96000000 
+			local msg = ""..string.rep(" ",(bits - 12))
+			pcall(function()
+				game.Players:Chat(msg)
+			end)
+			wait(0.8)
+	   end
+   end
+end
+end)
+AimBody:AddToggle("Toggle (Right Click)", false, function(toggle)
+GlobalAimbotToggle = toggle
+end)
+AimBody:AddDropdown("Aimbot Type", 1, {"Camera", "Mouse"}, function(newType)
+GlobalAimbotType = newType
+end)
+VisualsBody:AddToggle("Health", false, function(localToggle)
+PlayerHealthEspToggleBool = localToggle
+if PlayerHealthEspToggleBool then
+	makePlayerHealthEsp()
+else
+	removePlayerHealthEsp()
+end
+end)
+PlayerBody:AddToggle("Speed", false, function(localToggle)
+PlayerWalkSpeedHackBool = localToggle
+if localToggle then
+	PreviousPlayerWalkspeedValue = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed
+	game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = PlayerWalkSpeedValue
+else
+	game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = PreviousPlayerWalkspeedValue
+end 
+
+end)
+PlayerBody:AddSlider("Speed Value", 30, 7.5, function(val)
+PlayerWalkSpeedValue = val
+SetWalkSpeedVal = val
+if PlayerWalkSpeedHackBool then
+	game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = PlayerWalkSpeedValue
+end
+end)
+PlayerBody:AddToggle("Hip Height", false, function(localToggle)
+
+HipHeightToggleBool = localToggle
+if localToggle then
+	game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").HipHeight = HipHeightValue
+else
+	game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").HipHeight = 1.9
+end
+
+
+end)
+PlayerBody:AddSlider("Hip Height Value", 100, 2, function(val)
+HipHeightValue = val
+if HipHeightToggleBool then
+   game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").HipHeight = HipHeightValue
+end
+end)
+PlayerBody:AddToggle("Gravity", false, function(localToggle)
+GlobalGravityToggleBool = localToggle
+if localToggle then
+	game.Workspace.Gravity = NewGravity
+else
+	game.Workspace.Gravity = defaultRobloxGravity
+end
+end)
+PlayerBody:AddSlider("Gravity Value", 500, 70, function(val)
+NewGravity = val
+ if GlobalGravityToggleBool then
+	game.Workspace.Gravity = NewGravity
+ end
+end)
+PlayerBody:AddToggle("Anti-Aim", false, function(localToggle)
+AntiAimToggleBool = localToggle 
+end)
+PlayerBody:AddToggle("Fast Farm (T)", false, function(localToggle)
+globalHarvestToggleBool = localToggle 
+end)
+PlayerBody:AddToggle("Infinite Jump", false, function(localToggle)
+	infJumpToggleBool = localToggle 
+end)
+PlayerBody:AddToggle("Fly", false, function(localToggle)
+FlyHackGlobalBool = localToggle
+if FlyHackGlobalBool then
+	bodyVelocity = Instance.new("BodyVelocity", game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart"))
+	local UserInputService = game:GetService("UserInputService")
+	local speed = 28
+	while wait() do
+		local forward = game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.W)
+		local back = game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.S)
+		if forward then
+			bodyVelocity.Velocity = game.Workspace.CurrentCamera.CoordinateFrame.lookVector * Vector3.new(1, 1, 1) * speed
+		elseif back then
+			bodyVelocity.Velocity = game.Workspace.CurrentCamera.CoordinateFrame.lookVector * Vector3.new(-1, -1, -1) * speed
+		else
+			bodyVelocity.Velocity = game.Workspace.CurrentCamera.CoordinateFrame.lookVector * Vector3.new(0,0,0) * speed
+		end
+		game.Players.LocalPlayer.Character:FindFirstChild("Humanoid"):SetStateEnabled(Enum.HumanoidStateType.FallingDown, true)
+
+	end
+else
+	if bodyVelocity then
+		bodyVelocity:Destroy()
+	end
+end
+end)
+VisualsBody:AddToggle("Tracers", false, function(localToggle)
+PlayerTracerEspToggleBool = localToggle
+if PlayerTracerEspToggleBool then
+	makeTracerPlayerEsp()
+else
+	removeTracerPlayerEsp()
+end
+end)
+CameraBody:AddSlider("FOV", 120, game.Workspace:FindFirstChild("Camera").FieldOfView, function(val)
+game.Workspace:FindFirstChild("Camera").FieldOfView = val
+end) 
+CameraBody:AddToggle("No Sun Rays", false, function(localToggle)
+if localToggle then
+	game.Lighting.Rays.Enabled = false
+else
+	game.Lighting.Rays.Enabled = true
+end
+end)
+CameraBody:AddToggle("No Blur", false, function(localToggle)
+globalBlurToggleBool = localToggle
+end)
+CameraBody:AddToggle("Full bright", false, function(localToggle)
+if localToggle then	
+	prevAmbience = game.Lighting.Ambient
+	game.Lighting.Ambient = newAmbience
+   
+else
+	game.Lighting.Ambient = prevAmbience
+end
+end)
+CameraBody:AddToggle("Crosshair", false, function(localToggle)
+if localToggle then
+	CREATECROSSHAIR()
+else
+	REMOVECROSSHAIR()
+end
+end)
+VisualsBody:AddSlider("Render Distance", 5000, maxRenderDistance, function(val)
+maxRenderDistance = val
+end)
+VisualsBody:AddCP("Color", Color3.new(0.33333, 1, 0), function(new)
+PlayerESPColor3 = new 
+end)
+AimVisualsBody:AddToggle("FOV Circle", false, function(localToggle)
+isFovCircleVisibleBool = localToggle
+if isFovCircleVisibleBool then
+	FovCircle.Visible = true
+else
+	FovCircle.Visible = false
+end
+end)
+AimBody:AddSlider("FOV", 1000, GlobalFov, function(val)
+GlobalFov = val
+FovCircle.Radius = GlobalFov
+end)
+PlayerBody:AddToggle("Noclip TP (G)", false, function(localToggle)
+getgenv().globalNoclipTpToggle = localToggle
+end)
+
+
+
+
+
+
+
+-- ESP UPDATING RENDERSTEPPED
+if true then
+local RunService = game:GetService("RunService")
+local player = game.Players.LocalPlayer
+local mouse = player:GetMouse()
+local camera = game.Workspace:FindFirstChild("Camera")
+RunService.RenderStepped:Connect(function()
+
+	for index,v in pairs(game.Players:GetChildren()) do
+		if v.Name ~= game.Players.LocalPlayer.Name then
+			if v.Character then
+				local root = v.Character:FindFirstChild("HumanoidRootPart")
+				if root then
+					local pos = camera:WorldToViewportPoint(root.Position)
+					if PlayerTracerEspToggleBool then
+						pcall(function() updateTracerPlayerEsp(PlayerESPColor3, pos, index) end)
+					end
+					if PlayerNameEspToggleBool then
+						pcall(function() updatePlayerNameEsp(PlayerESPColor3, pos, index) end)
+					end
+					if PlayerHealthEspToggleBool then
+						pcall(function() updatePlayerHealthEsp(PlayerESPColor3, pos, index) end)
+					end
+				end
+			end
+		end
+	end
+end)
+end
+
+
+
+
+
+
+
+
+
+
+
+
+-- TP NOCLIP
+
+
+
+
+-- INF JUMP
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if infJumpToggleBool then
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+	end
+end)
+
+
+
+
+-- NEW PLAYER ESP
+
+if true then
+game:GetService("Players").PlayerRemoving:Connect(function(player) -- LEAVE PLAYER ESP
+
+	wait(0.1)
+	removePlayerHealthEsp()
+	makePlayerHealthEsp()
+
+	removeTracerPlayerEsp()
+	makeTracerPlayerEsp()
+
+	removeNamePlayerEsp()
+	makePlayerNameEsp()
+end)
+game.Players.PlayerAdded:Connect(function(player) -- NEW PLAYER ESP
+
+	player.CharacterAdded:Connect(function()
+		wait(0.1)
+		removePlayerHealthEsp()
+		makePlayerHealthEsp()
+		
+		removeTracerPlayerEsp()
+		makeTracerPlayerEsp()
+
+		removeNamePlayerEsp()
+		makePlayerNameEsp()
+	end)
+end)
+end
+
+
+
+
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function()	
+	wait(1)
+	
+	reenableAntiCheat()
+	disableAntiCheat()
+	initNoclip()
+	noRecoilHook()
+
+end)
+
+
+
+
+
+
+
+-- LAG FIX
+spawn(
+function()
+	while wait(10) do
+		reenableAntiCheat()
+		disableAntiCheat()
+	end
+end
+)
+-- LAG FIX
+
+
+
+
+
+
+
+while wait() do
+	if game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.T) then
+		if globalHarvestToggleBool then
+			pcall(function() harvest() end)
+		end
+	end
+	if globalBlurToggleBool then
+		game.Lighting.InventoryBlur.Enabled = false
+		game:GetService("Lighting").Blur.Enabled = false
+		game:GetService("Lighting").UnderWaterBlur.Enabled = false
+	end
+	if isFovCircleVisibleBool then
+		FovCircle.Color = PlayerESPColor3
+	end
+	if UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) then
+		if GlobalAimbotToggle then
+			if GlobalAimbotType == "Mouse" then
+				pcall(function()
+					aimbot()
+				end)
+			elseif GlobalAimbotType == "Camera" then
+				pcall(function()
+					aimbotcamera()
+				end)
+				
+			end
+		end
+	end
+	if GlobalNodeEspToggleBool then
+		if IronNodeEspToggleBool then
+			UPDATEIRONESP(getgenv().IRONNODEESPTABLE)
+		end
+		if StoneNodeEspToggleBool then
+			UPDATESTONEESP(getgenv().STONEESPTABLE)
+		end
+		if SulfurNodeEspToggleBool then
+			UPDATESULFURESP(getgenv().SULFURESPTABLE)
+		end
+	else
+		HIDESTONEESP()
+		HIDESULFURESP()
+		HIDEIRONESP()
+	end
+	if PlayerWalkSpeedHackBool then
+		pcall(function()
+			game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed = SetWalkSpeedVal 
+		end)
+	end
+	if AntiAimToggleBool then
+		pcall(function()
+			game.ReplicatedStorage.RemoteEvents.tiltAt:FireServer(-3, -0.4144616)
+		end)
+	end
+end
+
+
+
+
+
+
+
